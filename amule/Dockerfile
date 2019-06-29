@@ -5,12 +5,13 @@ ENV AMULE_VERSION 2.3.2
 ENV UPNP_VERSION 1.6.22
 ENV CRYPTOPP_VERSION CRYPTOPP_5_6_5
 
-RUN apk --update add gd geoip libpng libwebp pwgen sudo wxgtk2.8 zlib bash && \
-    apk --update add --virtual build-dependencies alpine-sdk automake \
+RUN apk --update add gd geoip libpng libwebp pwgen sudo zlib bash 
+RUN apk --update add wxgtk
+RUN apk --update add --virtual build-dependencies alpine-sdk automake \
                                autoconf bison g++ gcc gd-dev geoip-dev \
                                gettext gettext-dev git libpng-dev libwebp-dev \
                                libtool libsm-dev make musl-dev wget \
-                               wxgtk2.8-dev zlib-dev
+                               wxgtk-dev zlib-dev
 
 # Build libupnp
 RUN mkdir -p /opt \
@@ -72,6 +73,10 @@ RUN cd /usr/share/amule/webserver \
 
 # Add startup script
 ADD amule.sh /home/amule/amule.sh
+
+# Edit page to use KAD as default and display full file name in search result (Niels)
+RUN sed -i 's/>Local</>Kad</' /usr/share/amule/webserver/default/amuleweb-main-search.php \
+    && sed -i 's/short_name/name/' /usr/share/amule/webserver/default/amuleweb-main-search.php
 
 # Final cleanup
 RUN chmod a+x /home/amule/amule.sh \
