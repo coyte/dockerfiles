@@ -75,8 +75,8 @@ RUN cd /usr/share/amule/webserver \
 ADD amule.sh /home/amule/amule.sh
 
 # Edit page to use KAD as default and display full file name in search result (Niels)
-RUN sed -i 's/>Local</>Kad</' /usr/share/amule/webserver/default/amuleweb-main-search.php \
-    && sed -i 's/short_name/name/' /usr/share/amule/webserver/default/amuleweb-main-search.php
+RUN sed -i 's/>Global</>Kad</' /usr/share/amule/webserver/default/AmuleWebUI-Reloaded.php 
+#RUN sed -i 's/short_name/name/' /usr/share/amule/webserver/default/amuleweb-main-search.php
 
 # Final cleanup
 RUN chmod a+x /home/amule/amule.sh \
